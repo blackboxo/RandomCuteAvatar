@@ -8,8 +8,10 @@
     <Card :img="beeImage" :name="'bee'"/>
     <Card :img="pelicanImage" :name="'pelican'"/>
   </div>
-  <div>
-    <canvas class="w-50 h-50" ref="canvas"></canvas>
+  <div class="flex justify-center mt-8">
+    <canvas width="200" height="200" ref="canvas"></canvas>
+  </div>
+  <div class="flex justify-center gap-8 mt-8">
     <button @click="randomImages">随机一个</button>
     <button @click="overlayAndDownload">下载</button>
   </div>
@@ -18,9 +20,9 @@
 <script setup>
 import Card from './components/Card.vue'
 import kakiImage from './assets/logo.png';
-import elephantImage from './assets/elephant/logo.png';
-import beeImage from './assets/bee/logo.png';
-import pelicanImage from './assets/pelican/logo.png';
+import elephantImage from '/elephant/logo.png';
+import beeImage from '/bee/logo.png';
+import pelicanImage from '/pelican/logo.png';
 import { ref, onMounted } from 'vue';
 import { ElephantStyleList, ElephantStyleCount } from './const';
 
@@ -28,7 +30,7 @@ const canvas = ref(null);
 
 const getRandomImageFromFolder = (folder) => {
   const randomIndex = Math.floor(Math.random() * ElephantStyleCount[folder]);
-  const randomImagePath = `./assets/elephant/${folder}/${randomIndex + 1}.png`;
+  const randomImagePath = `/elephant/${folder}/${randomIndex + 1}.png`;
   return randomImagePath;
 };
 
@@ -61,7 +63,7 @@ const download = () => {
 };
 
 const overlayAndDownload = async () => {
-  await overlayImages();
+  // await overlayImages();
   download();
 };
 
