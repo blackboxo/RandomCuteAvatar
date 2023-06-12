@@ -43,8 +43,8 @@ const overlayImages = async () => {
       image.onload = () => {
         resolve(image);
       };
-      const module = await import(getRandomImageFromFolder(folder));
-      image.src = module.default;
+      const module =  new URL(getRandomImageFromFolder(folder), import.meta.url).href;
+      image.src = module;
     });
   });
 
