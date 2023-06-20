@@ -41,3 +41,5 @@ export const StyleMatch = {
         }
     }
 }
+
+export const CompatibleAgents = ['quark', 'micromessenger', 'weibo', 'douban'];

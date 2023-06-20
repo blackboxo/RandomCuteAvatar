@@ -17,23 +17,31 @@
       @click="randomImages">随机一个</button>
     <button @click="overlayAndDownload">下载</button>
   </div>
-  <canvas class="hidden" width="1024" height="1024" ref="tempCanvas"></canvas>
+  <div class="modal-wrapper" v-show="showModal" @click="closeModal">
+    <Modal @closeModal="closeModal">
+      <img class="p-6" :src="savedImageUrl" alt="Saved Image">
+    </Modal>
+  </div>
+  <canvas class="hidden" width="1024" height="1024" ref="tempCanvas" id="tempCanvas"></canvas>
 </template>
 
 <script setup>
-import Card from './components/Card.vue'
+import Card from './components/Card.vue';
+import Modal from './components/Modal.vue';
 import kakiImage from './assets/logo.png';
 // import elephantImage from '/elephant/logo.png';
 // import beeImage from '/bee/logo.png';
 // import pelicanImage from '/pelican/logo.png';
 import { ref, onMounted } from 'vue';
-import { AvatarTypes, StyleList, StyleCount, StyleMatch } from './const';
+import { AvatarTypes, StyleList, StyleCount, StyleMatch, CompatibleAgents } from './const';
 
 const canvas = ref(null);
 const tempCanvas = ref(null);
 var ctype = 0;
 var cnumber = {};
 var images;
+var showModal = ref(false);
+var savedImageUrl = ref('');
 
 const getRandomImageFromFolder = (folder) => {
   let current_type = AvatarTypes[ctype];
@@ -79,16 +87,29 @@ const download = () => {
   images.forEach((image) => {
     tempCtx.drawImage(image, 0, 0, tempCanvas.value.width, tempCanvas.value.height);
   });
-  const link = document.createElement('a');
-  link.href = tempCanvas.value.toDataURL();
-  // generate random name
-  link.download = `cute-random-avatar-${Math.random().toString(12).substring(2, 9)}.png`;
-  link.click();
+  const userAgent = window.navigator.userAgent.toLowerCase();
+  const isNeedCompatible = CompatibleAgents.some(
+    (agent) => userAgent.indexOf(agent) >= 0,
+  );
+
+  if (isNeedCompatible) {
+    openModal();
+    var tCanvas = document.getElementById('tempCanvas');
+    var image = tCanvas.toDataURL('image/png');
+    console.log(image)
+    savedImageUrl.value = image;
+  } else {
+    const link = document.createElement('a');
+    link.href = tempCanvas.value.toDataURL();
+    // generate random name
+    link.download = `cute-random-avatar-${Math.random().toString(12).substring(2, 9)}.png`;
+    link.click();
+  }
 };
 
 const preloadImages = () => {
   var currentStyleList = StyleList[AvatarTypes[ctype]];
-  
+
   currentStyleList.forEach((folder) => {
     for (let i = 0; i < StyleCount[AvatarTypes[ctype]][folder]; i++) {
       const image = new Image();
@@ -113,6 +134,14 @@ const selectType = (t) => {
   overlayImages();
 };
 
+const openModal = () => {
+  showModal.value = true;
+};
+
+const closeModal = () => {
+  showModal = false;
+}
+
 onMounted(() => {
   overlayImages();
   preloadImages();
@@ -122,4 +151,12 @@ onMounted(() => {
 
 
 
-<style scoped></style>
+<style scoped>
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+</style>
