@@ -17,15 +17,15 @@
       @click="randomImages">随机一个</button>
     <button @click="overlayAndDownload">下载</button>
   </div>
-  <canvas class="hidden" width="2400" height="2400" ref="tempCanvas"></canvas>
+  <canvas class="hidden" width="1024" height="1024" ref="tempCanvas"></canvas>
 </template>
 
 <script setup>
 import Card from './components/Card.vue'
 import kakiImage from './assets/logo.png';
-import elephantImage from '/elephant/logo.png';
-import beeImage from '/bee/logo.png';
-import pelicanImage from '/pelican/logo.png';
+// import elephantImage from '/elephant/logo.png';
+// import beeImage from '/bee/logo.png';
+// import pelicanImage from '/pelican/logo.png';
 import { ref, onMounted } from 'vue';
 import { AvatarTypes, StyleList, StyleCount, StyleMatch } from './const';
 
@@ -81,9 +81,25 @@ const download = () => {
   });
   const link = document.createElement('a');
   link.href = tempCanvas.value.toDataURL();
-  link.download = 'overlay.png';
+  // generate random name
+  link.download = `cute-random-avatar-${Math.random().toString(12).substring(2, 9)}.png`;
   link.click();
 };
+
+const preloadImages = () => {
+  var currentStyleList = StyleList[AvatarTypes[ctype]];
+  var image = new Image();
+  currentStyleList.forEach((folder) => {
+    for (let i = 0; i < StyleCount[AvatarTypes[ctype]][folder]; i++) {
+      const module = new URL(`/${AvatarTypes[ctype]}/${folder}/${i}.png`, import.meta.url).href;
+      console.log(`/${AvatarTypes[ctype]}/${folder}/${i}.png`);
+      image.src = module;
+      image.onload = () => {
+        console.log(`preload ${AvatarTypes[ctype]}/${folder}/${i}.png`);
+      };
+    }
+  });
+}
 
 const overlayAndDownload = async () => {
   // await overlayImages();
@@ -101,6 +117,7 @@ const selectType = (t) => {
 
 onMounted(() => {
   overlayImages();
+  preloadImages();
 });
 
 </script>

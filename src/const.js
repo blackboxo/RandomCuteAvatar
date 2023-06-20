@@ -13,7 +13,7 @@ export const StyleCount = {
         '2-hat': 6,
         '3-clothes': 6,
         '4-emoji': 7,
-        // '5-hand': 45,
+        '5-hand': 45,
     },
     'elephant': {
         background: 5,
