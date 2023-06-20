@@ -88,15 +88,13 @@ const download = () => {
 
 const preloadImages = () => {
   var currentStyleList = StyleList[AvatarTypes[ctype]];
-  var image = new Image();
+  
   currentStyleList.forEach((folder) => {
     for (let i = 0; i < StyleCount[AvatarTypes[ctype]][folder]; i++) {
-      const module = new URL(`/${AvatarTypes[ctype]}/${folder}/${i}.png`, import.meta.url).href;
-      console.log(`/${AvatarTypes[ctype]}/${folder}/${i}.png`);
+      const image = new Image();
+      const url = `/${AvatarTypes[ctype]}/${folder}/${i}.png`
+      const module = new URL(url, import.meta.url).href;
       image.src = module;
-      image.onload = () => {
-        console.log(`preload ${AvatarTypes[ctype]}/${folder}/${i}.png`);
-      };
     }
   });
 }
