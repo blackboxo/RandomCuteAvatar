@@ -92,7 +92,7 @@ const download = () => {
     (agent) => userAgent.indexOf(agent) >= 0,
   );
 
-  if (!isNeedCompatible) {
+  if (isNeedCompatible) {
     openModal();
     var tCanvas = document.getElementById('tempCanvas');
     var image = tCanvas.toDataURL('image/png');
