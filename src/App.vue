@@ -2,6 +2,11 @@
   <div class="absolute rounded-full left-8 top-8 hover:shadow-lg">
     <img class="w-14 " src="./assets/logo.png" alt="logo" />
   </div>
+  <!-- switch zh/en language-->
+  <div class="absolute rounded-full right-8 top-8 hover:shadow-lg">
+    <button class="bg-white text-black border-solid border-black border-2 focus:ring-2 focus:ring-offset-2 focus:ring-black rounded-full"
+      @click="switchLanguage">{{ language }}</button>
+  </div>
   <div class="flex gap-4">
     <!-- <Card @click="selectType(0)" :img="kakiImage" :name="'kaki'" /> -->
     <!-- <Card @click="selectType(1)" :img="elephantImage" :name="'elephant'" />
@@ -14,8 +19,8 @@
   <div class="flex justify-center gap-8 mt-8">
     <button
       class="bg-white text-black border-solid border-black border-2 focus:ring-2 focus:ring-offset-2 focus:ring-black rounded-full"
-      @click="randomImages">随机一个</button>
-    <button @click="overlayAndDownload">下载</button>
+      @click="randomImages">{{$t(`message.Random`)}}</button>
+    <button @click="overlayAndDownload">{{$t(`message.Download`)}}</button>
   </div>
   <div class="modal-wrapper" v-show="showModal" @click="closeModal">
     <Modal @closeModal="closeModal">
@@ -34,7 +39,9 @@ import kakiImage from './assets/logo.png';
 // import pelicanImage from '/pelican/logo.png';
 import { ref, onMounted } from 'vue';
 import { AvatarTypes, StyleList, StyleCount, StyleMatch, CompatibleAgents } from './const';
+import { useI18n } from 'vue-i18n';
 
+const { t, locale } = useI18n({ useScope: 'global' })
 const canvas = ref(null);
 const tempCanvas = ref(null);
 var ctype = 0;
@@ -42,6 +49,7 @@ var cnumber = {};
 var images;
 var showModal = ref(false);
 var savedImageUrl = ref('');
+var language = ref('EN');
 
 const getRandomImageFromFolder = (folder) => {
   let current_type = AvatarTypes[ctype];
@@ -132,6 +140,17 @@ const randomImages = () => {
 const selectType = (t) => {
   ctype = t;
   overlayImages();
+};
+
+const switchLanguage = () => {
+  
+  if (language.value === 'EN') {
+    language.value = 'CN';
+    locale.value = 'zh';
+  } else {
+    language.value = 'EN';
+    locale.value = 'en';
+  }
 };
 
 const openModal = () => {

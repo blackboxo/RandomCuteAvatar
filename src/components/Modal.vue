@@ -3,7 +3,7 @@
       <div class="bg-white rounded-lg shadow-xl" @click.stop>
         <!-- Modal内容 -->
         <slot></slot>
-        <p class="text-black mb-4 text-xl">长按保存图片</p>
+        <p class="text-black mb-4 text-xl">{{$t(`message.Save`)}}</p>
       </div>
     </div>
   </template>
