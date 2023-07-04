@@ -15,9 +15,9 @@
       @click="randomImages">{{$t(`message.Random`)}}</button>
     <button class="text-white bg-black" @click="download">{{$t(`message.Download`)}}</button>
   </div>
-  <div class="w-full text-center mt-36">
-    <p class="text-black">{{$t(`message.API`)}} <a class="font-semibold underline" href="/api">API</a></p>
-    <p class="text-gray-600">Designed by <a href="https://www.mylittlefox.art" target=”_blank”>mylittlefox</a> and Developed by <a href="https://www.github.com/blackboxo" target=”_blank”>blackboxo</a></p>
+  <div class="w-full text-center mt-20 md:mt-36">
+    <p class="text-black text-sm md:text-base">{{$t(`message.API`)}} <a class="font-semibold underline" href="/api">API</a></p>
+    <p class="text-gray-600 text-sm md:text-base">Designer <a href="https://www.mylittlefox.art" target=”_blank”>mylittlefox</a> and Developer <a href="https://www.github.com/blackboxo" target=”_blank”>blackboxo</a></p>
   </div>
   <div class="modal-wrapper" v-show="showModal" @click="closeModal">
     <Modal @closeModal="closeModal">

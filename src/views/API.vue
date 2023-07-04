@@ -1,14 +1,14 @@
 <template>
     <app-header></app-header>
     <div class="flex flex-col md:flex-row">
-        <div class="flex-1 flex flex-col items-left justify-end p-4">
-            <h2 class="text-4xl text-left mt-20 text-gradient leading-relaxed"
-                :class="currentLanguage == 'CN' ? 'text-2xl md:text-3xl md:leading-loose' : ''">{{ $t(`message.Desc0`) }}
+        <div class="flex-1 flex flex-col items-left justify-end px-4 md:pb-12">
+            <h2 class="text-4xl text-left mt-12 text-gradient leading-relaxed"
+                :class="currentLanguage == 'CN' ? 'text-[1.8rem] md:text-3xl md:leading-loose' : ''">{{ $t(`message.Desc0`) }}
                 <br>
                 {{
                     $t(`message.Desc1`) }} <br> {{ $t(`message.Desc2`) }}
             </h2>
-            <div class="btn mt-6" ref="btn">
+            <div class="btn mt-4" ref="btn">
                 <div class="btn-back">
                     <div class="form__group field">
                         <input type="input" class="form__field" placeholder="Name" name="name" id='name' v-model="inputText"
