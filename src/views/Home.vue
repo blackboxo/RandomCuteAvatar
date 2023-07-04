@@ -1,29 +1,21 @@
 <template>
-  <div class="absolute rounded-full left-8 top-8 hover:shadow-lg flex items-center">
-    <img class="w-14 " src="@/assets/logo.gif" alt="logo" />
-    <h2 class="text-left pl-3">Random <br> Cute Avatar</h2>
-  </div>
-  <!-- switch zh/en language-->
-  <div class="absolute rounded-full right-8 top-8 hover:shadow-lg">
-    <button class="bg-white text-black border-solid border-black border-2 focus:ring-2 focus:ring-offset-2 focus:ring-black rounded-full text-xs"
-      @click="switchLanguage">{{ language }}</button>
-  </div>
+  <app-header></app-header>
   <!-- <div class="flex gap-4">
     <Card @click="selectType(0)" :img="kakiImage" :name="'kaki'" /> -->
     <!-- <Card @click="selectType(1)" :img="elephantImage" :name="'elephant'" />
     <Card @click="selectType(2)" :img="beeImage" :name="'bee'" />
     <Card @click="selectType(3)" :img="pelicanImage" :name="'pelican'" />
   </div> -->
-  <div class="flex justify-center mt-36">
+  <div class="flex justify-center mt-48">
     <canvas width="200" height="200" ref="canvas"></canvas>
   </div>
   <div class="flex justify-center gap-8 mt-8">
     <button
       class="bg-white text-black border-solid border-black border-2 focus:ring-2 focus:ring-offset-2 focus:ring-black rounded-full"
       @click="randomImages">{{$t(`message.Random`)}}</button>
-    <button class="text-white" @click="overlayAndDownload">{{$t(`message.Download`)}}</button>
+    <button class="text-white bg-black" @click="download">{{$t(`message.Download`)}}</button>
   </div>
-  <div class="w-full text-center mt-20">
+  <div class="w-full text-center mt-36">
     <p class="text-black">{{$t(`message.API`)}} <a class="font-semibold underline" href="/api">API</a></p>
     <p class="text-gray-600">Designed by <a href="https://www.mylittlefox.art" target=”_blank”>mylittlefox</a> and Developed by <a href="https://www.github.com/blackboxo" target=”_blank”>blackboxo</a></p>
   </div>
@@ -37,17 +29,16 @@
 </template>
 
 <script setup>
-import Card from '@/components/Card.vue';
-import Modal from '@/components/Modal.vue';
-import kakiImage from '@/assets/logo.png';
+// import Card from '@/components/Card.vue';
+// import kakiImage from '@/assets/logo.png';
 // import elephantImage from '/elephant/logo.png';
 // import beeImage from '/bee/logo.png';
 // import pelicanImage from '/pelican/logo.png';
+import Modal from '@/components/Modal.vue';
 import { ref, onMounted } from 'vue';
 import { AvatarTypes, StyleList, StyleCount, StyleMatch, CompatibleAgents } from '@/const';
 import { useI18n } from 'vue-i18n';
 
-const { t, locale } = useI18n({ useScope: 'global' })
 const canvas = ref(null);
 const tempCanvas = ref(null);
 var ctype = 0;
@@ -55,7 +46,6 @@ var cnumber = {};
 var images;
 var showModal = ref(false);
 var savedImageUrl = ref('');
-var language = ref('EN');
 
 const getRandomImageFromFolder = (folder) => {
   let current_type = AvatarTypes[ctype];
@@ -74,7 +64,6 @@ const getRandomImageFromFolder = (folder) => {
 
 const overlayImages = async () => {
   const ctx = canvas.value.getContext('2d');
-  const tempCtx = tempCanvas.value.getContext('2d');
   var currentStyleList = StyleList[AvatarTypes[ctype]];
   const imagePromises = currentStyleList.map((folder) => {
     return new Promise(async (resolve) => {
@@ -134,29 +123,14 @@ const preloadImages = () => {
   });
 }
 
-const overlayAndDownload = async () => {
-  // await overlayImages();
-  download();
-};
-
 const randomImages = () => {
   overlayImages();
 };
 
-const selectType = (t) => {
-  ctype = t;
-  overlayImages();
-};
-
-const switchLanguage = () => {
-  if (language.value === 'EN') {
-    language.value = 'CN';
-    locale.value = 'en';
-  } else {
-    language.value = 'EN';
-    locale.value = 'zh';
-  }
-};
+// const selectType = (t) => {
+//   ctype = t;
+//   overlayImages();
+// };
 
 const openModal = () => {
   showModal.value = true;
@@ -173,8 +147,6 @@ onMounted(() => {
 
 </script>
 
-
-
 <style scoped>
 .modal-wrapper {
   position: fixed;
@@ -182,5 +154,12 @@ onMounted(() => {
   left: 0;
   right: 0;
   bottom: 0;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
 }
 </style>
