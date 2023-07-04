@@ -1,9 +1,9 @@
-# Random Cute Avatar
+# :tomato: Random Cute Avatar :tomato:
 
-An online random cute avatar generator. 
+:game_die: An online random cute avatar generator. 
 
-A tool for developers to access random avatars for their applications.
+:hammer_and_wrench: A tool for developers to access random avatars for their applications.
 
 [Try it online !](https://avatar.mylittlefox.art)
 
-![intro](src\assets\intro.gif)
+![intro](/src/assets/intro.gif)
