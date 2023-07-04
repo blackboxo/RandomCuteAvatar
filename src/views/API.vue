@@ -2,8 +2,12 @@
     <app-header></app-header>
     <div class="flex flex-col md:flex-row">
         <div class="flex-1 flex flex-col items-left justify-end p-4">
-            <h2 class="text-4xl text-left mt-20 text-gradient leading-relaxed" :class="currentLanguage == 'CN' ? 'text-3xl':''">{{ $t(`message.Desc0`) }} <br> {{
-                $t(`message.Desc1`) }} <br> {{ $t(`message.Desc2`) }}</h2>
+            <h2 class="text-4xl text-left mt-20 text-gradient leading-relaxed"
+                :class="currentLanguage == 'CN' ? 'text-2xl md:text-3xl md:leading-loose' : ''">{{ $t(`message.Desc0`) }}
+                <br>
+                {{
+                    $t(`message.Desc1`) }} <br> {{ $t(`message.Desc2`) }}
+            </h2>
             <div class="btn mt-6" ref="btn">
                 <div class="btn-back">
                     <div class="form__group field">
@@ -25,7 +29,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import  api  from '../api.js';
+import api from '../api.js';
 import { useStore } from 'vuex';
 import { computed } from 'vue';
 const store = useStore();
@@ -160,37 +164,44 @@ const yesClick = () => {
     transform: rotateY(-180deg);
 }
 
+@media (any-hover: hover) {
+    .glow-on-hover:before {
+        content: '';
+        background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        background-size: 400%;
+        z-index: -1;
+        filter: blur(5px);
+        width: calc(100% + 4px);
+        height: calc(100% + 4px);
+        animation: glowing 20s linear infinite;
+        opacity: 0;
+        transition: opacity .3s ease-in-out;
+        border-radius: 10px;
+    }
 
-.glow-on-hover:before {
-    content: '';
-    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    background-size: 400%;
-    z-index: -1;
-    filter: blur(5px);
-    width: calc(100% + 4px);
-    height: calc(100% + 4px);
-    animation: glowing 20s linear infinite;
-    opacity: 0;
-    transition: opacity .3s ease-in-out;
-    border-radius: 10px;
+    .glow-on-hover:after {
+        z-index: -1;
+        content: '';
+        position: absolute;
+        background: #111;
+        left: 0;
+        top: 0;
+        border-radius: 10px;
+    }
+
+    .glow-on-hover:hover:before {
+        opacity: 1;
+    }
+
+    button:hover {
+        border-color: white;
+    }
 }
 
-.glow-on-hover:after {
-    z-index: -1;
-    content: '';
-    position: absolute;
-    background: #111;
-    left: 0;
-    top: 0;
-    border-radius: 10px;
-}
 
-.glow-on-hover:hover:before {
-    opacity: 1;
-}
 
 @keyframes glowing {
     0% {
@@ -206,9 +217,6 @@ const yesClick = () => {
     }
 }
 
-button:hover {
-    border-color: white;
-}
 
 .form__group {
     position: relative;
@@ -221,6 +229,7 @@ button:hover {
     width: 100%;
     border: 0;
     border-bottom: 2px solid #9b9b9b;
+    border-radius: 0;
     outline: 0;
     font-size: 1rem;
     padding: 15px 7px 7px 0;
